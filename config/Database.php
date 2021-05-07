@@ -7,7 +7,7 @@
         private $conn;
 
         public function connect() {
-            $url = getenv('JAWSDB_URL');
+         
             $this->conn = null;
            
 
