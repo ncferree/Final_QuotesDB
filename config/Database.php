@@ -8,6 +8,7 @@
 
         public function connect() {
             $this->conn = null;
+            $url = getenv('JAWSDB_URL');
 
             try{
                 $this->conn = new PDO('mysql: host=' . $this->host . ';dbname=' . $this->db_name,
