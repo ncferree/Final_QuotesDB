@@ -1,4 +1,5 @@
 <?php
+   
     header('Access-Control-Allow_Origin: *');
     header('Content-Type: application/json');
 
@@ -13,21 +14,25 @@
     $quote = new Quote($db);
 
     //parameter data
-    $authorId = filter_input(INPUT_GET, 'authorID', FILTER_VALIDATE_INT);
-    $categoryId = filter_input(INPUT_GET, 'categoryID', FILTER_VALIDATE_INT);
+    $authorId = filter_input(INPUT_GET, 'authorId', FILTER_VALIDATE_INT);
+    $categoryId = filter_input(INPUT_GET, 'categoryId', FILTER_VALIDATE_INT);
     $limit = filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT);
+    
 
     //pass parameter to model
-    if ($authorId) { 
+    if ($authorId && $categoryId) {
+        $quote->authorId = $authorId;
+        $quote->categoryId = $categoryId;
+    } elseif ($authorId) { 
         $quote->authorId = $authorId; 
     } elseif ($categoryId) {
         $quote->categoryId = $categoryId;
-    } elseif ($authorId && $categoryId) {
-        $quote->authorId && $this->categoryId;
-    } elseif ($limit) {
-        $quote->limit = $limit;
     }
 
+    if ($limit) {
+        $quote->limit = $limit;
+    }
+    
     //quote query
     $result = $quote->read();
 
@@ -55,6 +60,7 @@
             array('message' => 'No Quotes Found')
         );  
     } 
+
 
 
 
