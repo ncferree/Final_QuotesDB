@@ -51,7 +51,7 @@
     }
 
 
-    $url = "https://final-quotesdb.herokuapp.com/{$query}";
+    $url = "http://final-quotesdb.herokuapp.com/{$query}";
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
