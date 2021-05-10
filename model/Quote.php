@@ -23,46 +23,24 @@ class Quote {
                         LEFT JOIN authors A ON Q.authorId = A.id
                         LEFT JOIN categories C ON Q.categoryId = C.id';
 
-                        if(empty($this->authorId)) {
-                            $statement = $this->conn->prepare($query); 
-                        }
-                        if (empty($this->categoryId)) {
-                            $statement = $this->conn->prepare($query); 
-                        }
-
                         if ($this->authorId && $this->categoryId) {
                             $query .= ' WHERE Q.authorId = :authorId AND Q.categoryId = :categoryId' ;
-
-                            $statement = $this->conn->prepare($query);
-                            $statement->bindParam(':authorId', $this->authorId );
-                            $statement->bindParam(':categoryId', $this->categoryId );
-                            
                         } elseif ($this->authorId) { 
                             $query .=  ' WHERE Q.authorId = :authorId' ;
-
-                            $statement = $this->conn->prepare($query);
-                            $statement->bindParam(':authorId', $this->authorId );
-
                         } elseif ($this->categoryId) {
                             $query .= ' WHERE Q.categoryId = :categoryId' ;
-
-                            $statement = $this->conn->prepare($query);
-                            $statement->bindParam(':categoryId', $this->categoryId );
                         }
 
                         if ($this->limit) {
                             $query .= ' LIMIT ' . $this->limit ;
-
-                            $statement = $this->conn->prepare($query);
-                         
                         }
-
-                       
-            
+                        
+            $statement = $this->conn->prepare($query);
+            if ($this->authorId) $statement->bindParam(':authorId', $this->authorId );
+            if ($this->categoryId) $statement->bindParam(':categoryId', $this->categoryId );
             $statement->execute();
             return $statement;
         }
-
 
         //Get single quote
         public function read_single() {
